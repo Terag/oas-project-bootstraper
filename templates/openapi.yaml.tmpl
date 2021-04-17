@@ -1,0 +1,40 @@
+openapi: {{.Openapi}}
+info:
+  title: {{.Info.Title}}
+  description: {{.Info.Description}}
+  version: {{.Info.Version}}
+  {{- if .Info.Contact}}
+  contact:
+    {{- if .Info.Contact.Name}}
+    name: {{.Info.Contact.Name}}
+    {{- end}}
+    {{- if .Info.Contact.Url}}
+    url: {{.Info.Contact.Url}}
+    {{- end}}
+    {{- if .Info.Contact.Email}}
+    email: {{.Info.Contact.Email}}
+    {{- end}}
+  {{- end}}
+  {{- if .Info.License}}
+  license:
+    {{- if .Info.License.Name}}
+    name: {{.Info.License.Name}}
+    {{- end}}
+    {{- if .Info.License.Identifier}}
+    identifier: {{.Info.License.Identifier}}
+    {{- end}}
+    {{- if .Info.License.Url}}
+    url: {{.Info.License.Url}}
+    {{- end}}
+  {{- end}}
+tags:
+  -
+    name: {{Replace " " "" -1 .Info.Title}}{{ToUpper .Info.Version}}
+    description: {{.Info.Version}} of {{.Info.Title}}
+{{- if .Paths}}
+paths:
+  {{- range .Paths}}
+  {{.Name}}:
+    $ref: paths/{{SliceBeginning 1 .Name | Replace "/" "@" -1}}.yaml
+{{end -}}
+{{- end}}

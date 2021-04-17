@@ -1,0 +1,23 @@
+# {{.Info.Title}}
+
+{{.Info.Description}}
+
+## OAS bundle
+
+___
+
+The OAS specification can be bundled using the tool [openapi-cli](https://redoc.ly/openapi-cli/)
+
+1. Install [Node JS](https://nodejs.org/).
+2. Run `npm install -g @redocly/openapi-cli` from anywhere.
+3. Clone this repo and run `openapi bundle -o _build/dist.yaml --ext yaml openapi/openapi.yaml` in the repo root
+
+## OAS lint
+
+___
+
+You can use the linting functionality of [openapi-cli](https://redoc.ly/openapi-cli/).
+
+It is as simple as running `openapi lint openapi.yaml`
+
+To configure the linting please refer to the file *.redocly.yaml* in the project root and the [available rules](https://redoc.ly/docs/cli/built-in-rules/).
