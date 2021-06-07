@@ -24,7 +24,6 @@ func init() {
 	versionFlag := flag.Bool("v", false, "Print version and build information")
 	flag.StringVar(&Workspace, "w", ".", "Directory were the project will be bootstrapped (default: ./)")
 	flag.StringVar(&BaseFilePath, "b", "", "Base file that can be used to bootstrap the OAS. use -h for more information")
-	flag.String("help", "help", "Print help information on how to use the CLI")
 	flag.Parse()
 
 	switch {
