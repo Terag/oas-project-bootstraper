@@ -6,28 +6,26 @@ type HttpVerb int
 
 const (
 	GET = iota
-	HEAD
 	POST
 	PUT
+	PATCH
 	DELETE
-	CONNECT
+	HEAD
 	OPTIONS
 	TRACE
-	PATCH
 )
 
 // Convert a HttpVerb the associated string
 func (p HttpVerb) String() string {
 	return [...]string{
 		"GET",
-		"HEAD",
 		"POST",
 		"PUT",
+		"PATCH",
 		"DELETE",
-		"CONNECT",
+		"HEAD",
 		"OPTIONS",
 		"TRACE",
-		"PATCH",
 	}[p]
 }
 
@@ -35,14 +33,13 @@ func (p HttpVerb) String() string {
 func StringToHttpVerb(s string) HttpVerb {
 	return map[string]HttpVerb{
 		"GET":  GET,
-		"HEAD": HEAD,
 		"POST": POST,
 		"PUT":  PUT,
+		"PATCH": PATCH,
 		"DELETE": DELETE,
-		"CONNECT": CONNECT,
+		"HEAD": HEAD,
 		"OPTIONS": OPTIONS,
 		"TRACE": TRACE,
-		"PATCH": PATCH,
 	}[s]
 }
 

@@ -1,0 +1,32 @@
+name: Go
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16.5
+
+    - name: Build Windows
+      run: GOOS=windows GOARCH=amd64 go build -o target/oas-project-bootstraper.exe
+
+    - name: Build Linux
+      run: GOOS=linux GOARCH=amd64 go build -o target/oas-project-bootstraper
+
+    - name: Publish
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: oas-project-bootstraper
+        path: target/*
+        if-no-files-found: error
