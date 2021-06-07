@@ -4,15 +4,16 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"oas-project-bootstraper/oas"
+	"gitlab.beyond-undefined.fr/terag/oas-project-bootstraper/oas-project-bootstraper/oas"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"os"
 	"runtime"
 )
 
 var (
-	ApiName string
-	Info 	string
 	Workspace string
+	BaseFilePath string
 )
 
 //go:embed templates
@@ -22,7 +23,7 @@ func init() {
 	helpFlag := flag.Bool("h", false, "Print this message and exit.")
 	versionFlag := flag.Bool("v", false, "Print version and build information")
 	flag.StringVar(&Workspace, "w", ".", "Directory were the project will be bootstrapped (default: ./)")
-	flag.StringVar(&ApiName, "n", "", "API name")
+	flag.StringVar(&BaseFilePath, "b", "", "Base file that can be used to bootstrap the OAS. use -h for more information")
 	flag.String("help", "help", "Print help information on how to use the CLI")
 	flag.Parse()
 
@@ -48,27 +49,25 @@ func main() {
 		Base: oas.OpenApiObject {
 			Openapi: "3.0.3",
 			Info: oas.InfoObject {
-				Title: "Test API",
-				Description: "Une super API à utiliser par toute la famille",
+				Title: "Sample",
+				Description: "Your amazing API !",
 				Version: "v1",
 				Contact: oas.ContactObject {
-					Name: "Victor Rouquette",
-					Email: "victor@rouquette.me",
+					Name: "John Doe",
+					Email: "john.doe@example.com",
 				},
 				License: oas.LicenseObject {
 					Name: "MIT",
 				},
 			},
-			Paths: []oas.Path {
-				{
-					Name: "/tests",
+			Paths: map[string]oas.Path {
+				"/tests": {
 					Verbs: []oas.HttpVerb {
 						oas.GET,
 						oas.POST,
 					},
 				},
-				{
-					Name: "/tests/{test_ref}",
+				"/tests/{test_ref}": {
 					Verbs: []oas.HttpVerb{
 						oas.GET,
 						oas.PUT,
@@ -78,6 +77,15 @@ func main() {
 			},
 		},
 		Templates: Templates,
+	}
+
+	if BaseFilePath != "" {
+		BaseFile, err := ioutil.ReadFile(BaseFilePath)
+		if err != nil {
+			fmt.Println("Error reading base file for bootstrapping: ", err)
+			os.Exit(-1)
+		}
+		err = yaml.Unmarshal(BaseFile, &bootstrapper.Base)
 	}
 
 	bootstrapper.Bootstrap()
