@@ -1,3 +1,6 @@
 .idea/*
 *.exe
 taget/*
+oas-project-bootstraper
+example/openapi/*
+example/README.md
